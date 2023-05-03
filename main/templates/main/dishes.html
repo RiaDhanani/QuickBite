@@ -12,16 +12,21 @@
           <!--Content-->
           <div class="p-4 content">
             <div class="mt-0">
-                <h2><u>{{ item.title }}</u><span class="badge badge-{{ item.label_colour }} ml-2">{{ item.labels }}</span></h2>
+              <h2><u>{{ item.title }}</u></h2>
+                  <h2 class="badge badge-{{ item.label_colour }} ml-2">{{ item.labels }}</h2>
             </div>
             <div class="lead">
               {% if item.description %}
               <h5>{{ item.description }}</h5>
               {% endif %}
-              <h3>₹ {{ item.price }} per box of {{ item.pieces}} pieces</h3>
+              {% if item.pieces > 0 %}
+                <h3>${{ item.price }} per box of {{ item.pieces}} pieces</h3>
+              {% else %}
+                <h3>${{ item.price }}</h3>
+              {% endif %}
               <h4>{{ item.instructions }}</h4>
             </div>
-            <a href="{% url 'main:add-to-cart' item.slug %}" class="btn btn-primary btn-md my-0 p">Add to cart</a>
+            <a href="{% url 'main:add-to-cart' item.slug %}" class="btn btn-info btn-md my-0 p">Add to cart</a>
           </div>
         </div>
       </div>
@@ -39,13 +44,13 @@
           <input type="hidden" name="rslug" class="form-control" value="{{item.slug}}">
         </div>
         <div class="col-sm-1">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-info">Submit</button>
         </div>
       </div>
     </form>
 
     {% for review in reviews %}
-    <div class="main-reviews card bg-success mb-3">
+    <div class="main-reviews card mb-3" style="background-color: #f2f4d2">
       <div class="card-body">
         <div class="user_details" style="display: flex; border-bottom: 1px solid rgb(31, 30, 30);">
           <h3 class="mr-3">{{ review.user.username }} </h3>
